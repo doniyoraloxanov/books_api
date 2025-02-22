@@ -27,7 +27,8 @@ namespace Data_Access_Layer.Repository
             {
                 if (!optionsBuilder.IsConfigured)
                 {
-                    optionsBuilder.UseSqlServer("Data Source=LAPTOP-83VDM6D4;Initial Catalog=BooksDatabase;Integrated Security=True;Trust Server Certificate=True");
+                // Connection string so exposed, even my grandma could hack me
+                optionsBuilder.UseSqlServer("Data Source=LAPTOP-83VDM6D4;Initial Catalog=BooksDatabase;Integrated Security=True;Trust Server Certificate=True");
                 }
             }
 
