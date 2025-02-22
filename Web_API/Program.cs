@@ -1,9 +1,4 @@
-
-
-using Data_Access_Layer.Repository;
-using Microsoft.EntityFrameworkCore;
-
-namespace threelayer
+namespace books
 {
     public class Program
     {
@@ -12,7 +7,6 @@ namespace threelayer
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

@@ -61,8 +61,6 @@ namespace Web_API.Controllers
                  return BadRequest(ModelState);
             }
 
-
-
         }
 
 
@@ -79,7 +77,6 @@ namespace Web_API.Controllers
                 return BadRequest(ModelState);
             }
 
-          
         }
 
 

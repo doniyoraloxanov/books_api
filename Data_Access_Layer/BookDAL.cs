@@ -6,77 +6,67 @@ namespace Data_Access_Layer
 {
     public class BookDAL
     {
-
-        private readonly BookDbContext _dbContext;
-
-        public BookDAL(BookDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
-        public BookDAL()
-        {
-        }
-
         public async Task<List<Book>> GetAllBooks(int pageNumber = 1, int pageSize = 1000)
         {
-            return await _dbContext.Books
-                .OrderByDescending(b => (b.ViewCount * 0.5) + ((DateTime.Now.Year - b.PublicationYear) * 2))
-                .Skip((pageNumber - 1) * pageSize)
+            var db = new BookDbContext();
+            var skipResult = (pageNumber - 1) * pageSize;
+
+            var bookTitles = await db.Books
+                .Skip(skipResult)
                 .Take(pageSize)
+                .OrderByDescending(b => (b.ViewCount * 0.5) + ((DateTime.Now.Year - b.PublicationYear) * 2))
                 .ToListAsync();
-        }
 
-        public async Task<Book?> GetBookById(Guid id)
-        {
-            var book = await _dbContext.Books.FindAsync(id);
-            if (book == null) return null;
-
-            book.ViewCount++;
-            await _dbContext.SaveChangesAsync();
-            return book;
-        }
-
-        public async Task<Book?> UpdateBook(Guid id, Book updatedBook)
-        {
-            var book = await _dbContext.Books.FindAsync(id);
-            if (book == null) return null;
-
-            book.Title = updatedBook.Title;
-            book.PublicationYear = updatedBook.PublicationYear;
-            book.AuthorName = updatedBook.AuthorName;
-            book.ViewCount = updatedBook.ViewCount;
-
-            await _dbContext.SaveChangesAsync();
-            return book;
+            return bookTitles;
         }
 
 
-        public async Task CreateBook(Book book)
+        public async Task<Book> GetBookById(Guid id)
         {
-            if (await _dbContext.Books.AnyAsync(b => b.Title == book.Title))
+            var db = new BookDbContext();
+
+            var exsistingBook = await db.Books.FirstOrDefaultAsync(x => x.Id == id);
+            if (exsistingBook == null)
             {
-                throw new InvalidOperationException("A book with the same title already exists.");
+                return null;
             }
 
-            book.Id = Guid.NewGuid();
-            book.IsDeleted = false;
-
-            await _dbContext.Books.AddAsync(book);
-            await _dbContext.SaveChangesAsync();
+            exsistingBook.ViewCount++;
+            await db.SaveChangesAsync();
+            return exsistingBook;
         }
 
 
-        public async Task CreateBooksBulk(List<Book> books) => await _dbContext.BulkInsertAsync(books);
-    
+        public async Task<Book?> UpdateBook(Guid id, Book updateBook)
+        {
+            var db = new BookDbContext();
+
+            var exsistingBook = await db.Books.FirstOrDefaultAsync(x => x.Id == id);
+            if (exsistingBook == null)
+            {
+                return null;
+            }
+
+            exsistingBook.Title = updateBook.Title;
+            exsistingBook.PublicationYear = updateBook.PublicationYear;
+            exsistingBook.AuthorName = updateBook.AuthorName;
+            exsistingBook.ViewCount = updateBook.ViewCount;
+            await db.SaveChangesAsync();
+            return exsistingBook;
+        }
+
+
+
         public async Task DeleteBook(Guid id)
         {
-            var book = await _dbContext.Books.FindAsync(id);
-            if (book != null)
+            var db = new BookDbContext();
+            var exsistingBook = await db.Books.FirstOrDefaultAsync(x => x.Id == id);
+            if (exsistingBook != null)
             {
-                book.IsDeleted = true;
-                await _dbContext.SaveChangesAsync();
+                exsistingBook.IsDeleted = true;
+                await db.SaveChangesAsync();
             }
+
         }
 
 
@@ -90,6 +80,34 @@ namespace Data_Access_Layer
             await db.SaveChangesAsync();
         }
 
-     
+        public async Task CreateBook(Book book)
+        {
+            var db = new BookDbContext();
+
+            var existingBook = await db.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
+            if (existingBook != null)
+            {
+                throw new InvalidOperationException("A book with the same title already exists.");
+            }
+
+            var newBook = new Book
+            {
+                Id = Guid.NewGuid(),
+                Title = book.Title,
+                PublicationYear = book.PublicationYear,
+                AuthorName = book.AuthorName,
+                ViewCount = book.ViewCount,
+                IsDeleted = false
+            };
+
+            await db.AddAsync(newBook);
+            await db.SaveChangesAsync();
+        }
+
+        public async Task CreateBooksBulk(List<Book> books)
+        {
+            var db = new BookDbContext();
+            await db.BulkInsertAsync(books);
+        }
     }
 }
