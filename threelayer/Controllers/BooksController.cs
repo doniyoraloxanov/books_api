@@ -32,6 +32,7 @@ namespace Web_API.Controllers
 
         [HttpGet]
         [Route("{id:Guid}")]
+     
         public async Task<IActionResult> GetBookById([FromRoute] Guid id)
         {
             var exsistingBook = await _BLL.GetBookById(id);
@@ -45,29 +46,41 @@ namespace Web_API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] AddBooksModel addBooksModel)
+        
+        public async Task<IActionResult> CreateBook([FromBody] AddBooksModel addBooksModel)
         {
-            
-            if(addBooksModel == null)
+
+            if (ModelState.IsValid)
             {
-                return NotFound();
+
+                await _BLL.CreateBook(addBooksModel);
+                return Ok("A book inserted successfully.");
+
+            }
+            else
+            {
+                 return BadRequest(ModelState);
             }
 
-            await _BLL.CreateBook(addBooksModel);
-            return Ok("A book inserted successfully.");
+
+
         }
 
 
         [HttpPost("bulk-create")]
         public async Task<IActionResult> CreateBooksBulk([FromBody] List<AddBooksModel> addBooksModels)
         {
-            if (addBooksModels == null)
+            if (ModelState.IsValid)
             {
-              return NotFound();
+                await _BLL.CreateBooksBulk(addBooksModels);
+                return Ok("Books inserted successfully.");
+
+            } else
+            {
+                return BadRequest(ModelState);
             }
 
-            await _BLL.CreateBooksBulk(addBooksModels);
-            return Ok("Books inserted successfully.");
+          
         }
 
 
@@ -75,14 +88,18 @@ namespace Web_API.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> UpdateBook([FromRoute] Guid id, [FromBody] UpdateBooksModel updateBooksModel)
         {
-            var updatedBook = await _BLL.UpdateBook(id, updateBooksModel);
 
-            if (updatedBook == null)
+            if (ModelState.IsValid)
             {
-                return NotFound("Invalid ID");
-            }
+                var updatedBook = await _BLL.UpdateBook(id, updateBooksModel);
 
-            return Ok(updatedBook);
+                return Ok(updatedBook);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+           
         }
 
 
@@ -90,7 +107,7 @@ namespace Web_API.Controllers
         [HttpDelete]
         [Route("{id:Guid}")]
 
-        public async Task<IActionResult> SoftDeleteBook([FromRoute] Guid id)
+        public async Task<IActionResult> DeleteBook([FromRoute] Guid id)
         {
             var deletedBook = _BLL.DeleteBook(id);
             if (deletedBook == null)
@@ -100,9 +117,10 @@ namespace Web_API.Controllers
             return Ok("Book deleted successfully.");
         }
 
+
         [HttpDelete]
         [Route("bulk-delete")]
-        public async Task<IActionResult> SoftDeleteBooksBulk([FromBody] List<Guid> ids)
+        public async Task<IActionResult> DeleteBooksBulk([FromBody] List<Guid> ids)
         {
             if (ids == null)
             {

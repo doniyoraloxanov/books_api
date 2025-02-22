@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Business_Logic_Layer.Models;
 using Data_Access_Layer.Repository.Entities;
 
@@ -76,8 +71,6 @@ namespace Business_Logic_Layer
         }
 
 
-
-        // Code softDleteBooks bulk 
         public async Task DeleteSoftBook(List<Guid> ids)
         {
             await _DAL.SoftDeleteBooksBulk(ids);

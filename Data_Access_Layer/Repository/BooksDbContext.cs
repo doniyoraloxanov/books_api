@@ -33,7 +33,7 @@ namespace Data_Access_Layer.Repository
 
             protected override void OnModelCreating(ModelBuilder modelBuilder)
             {
-            // SHow only non-deleted books
+    
             modelBuilder.Entity<Book>().HasQueryFilter(e => !e.IsDeleted);
 
             modelBuilder.Entity<Book>(entity =>
