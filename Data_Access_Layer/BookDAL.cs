@@ -14,7 +14,9 @@ namespace Data_Access_Layer
             _dbContext = dbContext;
         }
 
-
+        public BookDAL()
+        {
+        }
 
         public async Task<List<Book>> GetAllBooks(int pageNumber = 1, int pageSize = 1000)
         {

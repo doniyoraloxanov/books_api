@@ -31,7 +31,6 @@ namespace Web_API.Controllers
 
         [HttpGet]
         [Route("{id:Guid}")]
-     
         public async Task<IActionResult> GetBookById([FromRoute] Guid id)
         {
             var exsistingBook = await _BLL.GetBookById(id);
@@ -44,8 +43,9 @@ namespace Web_API.Controllers
             return Ok(exsistingBook);
         }
 
+
+
         [HttpPost]
-        
         public async Task<IActionResult> CreateBook([FromBody] AddBooksModel addBooksModel)
         {
 
