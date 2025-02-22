@@ -6,15 +6,16 @@ namespace Data_Access_Layer
 {
     public class BookDAL
     {
-        public async Task<List<Book>> GetAllBooks(int pageNumber = 1, int pageSize = 1000)
+        public async Task<List<string>> GetAllBooks(int pageNumber = 1, int pageSize = 1000)
         {
             var db = new BookDbContext();
             var skipResult = (pageNumber - 1) * pageSize;
 
             var bookTitles = await db.Books
+                .OrderByDescending(b => (b.ViewCount * 0.5) + ((DateTime.Now.Year - b.PublicationYear) * 2))
                 .Skip(skipResult)
                 .Take(pageSize)
-                .OrderByDescending(b => (b.ViewCount * 0.5) + ((DateTime.Now.Year - b.PublicationYear) * 2))
+                .Select(b => b.Title) 
                 .ToListAsync();
 
             return bookTitles;

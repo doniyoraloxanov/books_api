@@ -30,14 +30,11 @@ namespace Business_Logic_Layer
         }
 
 
-        public async Task<List<BooksModel>> GetAllBooks(int pageNumber = 1, int pageSize = 1000)
+        public async Task<List<string>> GetAllBooks(int pageNumber = 1, int pageSize = 1000)
         {
-            List<Book> booksFromDB = await _DAL.GetAllBooks(pageNumber, pageSize);
-            List<BooksModel> booksModel = _BooksMapper.Map<List<Book>, List<BooksModel>>(booksFromDB);
-
-            return booksModel;
+            List<string> bookTitles = await _DAL.GetAllBooks(pageNumber, pageSize);
+            return bookTitles;
         }
-
 
         public async Task<BooksModel> GetBookById(Guid id)
         {
