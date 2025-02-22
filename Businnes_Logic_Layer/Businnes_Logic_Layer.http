@@ -1,0 +1,6 @@
+@Businnes_Logic_Layer_HostAddress = http://localhost:5168
+
+GET {{Businnes_Logic_Layer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
