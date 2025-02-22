@@ -23,8 +23,3 @@ The **Books Management API** is a RESTful service built using ASP.NET Core Web A
 ### Popularity Score Calculation (on-the-fly, not stored in DB)
 - Based on book views and years since publication
 - **Formula**: `Popularity Score = BookViews * 0.5 + YearsSincePublished * 2`
-
-### Security & Validation
-- JWT authentication to secure all endpoints
-- Input validation to ensure correct data submission
-
