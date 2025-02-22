@@ -19,7 +19,6 @@ namespace Web_API.Controllers
         }
 
 
-        // GET | All books
 
         [HttpGet]
         public async Task<IActionResult> GetAllBooks()
@@ -45,10 +44,6 @@ namespace Web_API.Controllers
             return Ok(exsistingBook);
         }
 
-
-
-
-        // POST | Create book
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AddBooksModel addBooksModel)
         {
@@ -76,9 +71,6 @@ namespace Web_API.Controllers
         }
 
 
-        // UPDATE  | Update single book
-        // PUT 
-
         [HttpPut]
         [Route("{id:Guid}")]
         public async Task<IActionResult> UpdateBook([FromRoute] Guid id, [FromBody] UpdateBooksModel updateBooksModel)
@@ -93,7 +85,6 @@ namespace Web_API.Controllers
             return Ok(updatedBook);
         }
 
-        //#############################################
 
 
         [HttpDelete]
@@ -109,8 +100,6 @@ namespace Web_API.Controllers
             return Ok("Book deleted successfully.");
         }
 
-
-        //#############################################
         [HttpDelete]
         [Route("bulk-delete")]
         public async Task<IActionResult> SoftDeleteBooksBulk([FromBody] List<Guid> ids)
