@@ -60,8 +60,7 @@ namespace Business_Logic_Layer
 
         public async Task DeleteBook(Guid id) => await _DAL.DeleteBook(id);
 
-        public async Task DeleteSoftBook(List<Guid> ids) => await _DAL.DeleteBooksBulk(ids);
-
+        public async Task DeleteBooksBulk(List<Guid> ids) => await _DAL.DeleteBooksBulk(ids);
 
     }
 }
