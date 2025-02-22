@@ -127,16 +127,10 @@ namespace Web_API.Controllers
         /// </summary>
         /// <param name="ids">List of book IDs.</param>
         /// Returns a success message if the boooks are successfully soft deleted.
-        /// Returns 404 if the books do not exist or is already deleted.
         [HttpDelete]
         [Route("bulk-delete")]
         public async Task<IActionResult> DeleteBooksBulk([FromBody] List<Guid> ids)
         {
-            if (ids == null)
-            {
-                return NotFound();
-            }
-
             await _BLL.DeleteBooksBulk(ids);
 
             return Ok("Books deleted successfully.");
