@@ -1,8 +1,6 @@
 ﻿using Business_Logic_Layer.Models;
-using Data_Access_Layer.Repository.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace Web_API.Controllers
 {
@@ -117,7 +115,7 @@ namespace Web_API.Controllers
             }
             return Ok("A Book deleted successfully!");
         }
-
+         
 
         [HttpDelete]
         [Route("bulk-delete")]
