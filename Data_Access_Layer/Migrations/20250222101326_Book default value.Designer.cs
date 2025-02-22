@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data_Access_Layer.Migrations
 {
     [DbContext(typeof(BookDbContext))]
-    [Migration("20250221232140_Change default value")]
-    partial class Changedefaultvalue
+    [Migration("20250222101326_Book default value")]
+    partial class Bookdefaultvalue
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

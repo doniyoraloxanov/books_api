@@ -20,8 +20,6 @@ namespace Business_Logic_Layer.Models
 
         [MaxLength(20, ErrorMessage = "AuthorName has to be a maximum of 30 charcters")]
         public string AuthorName { get; set; }
-        public int ViewCount { get; set; }
-        public bool IsDeleted { get; set; }
 
     }
 }

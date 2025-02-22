@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data_Access_Layer.Repository.Entities
 {
@@ -26,7 +21,8 @@ namespace Data_Access_Layer.Repository.Entities
         public string AuthorName { get; set; }
 
         [Column("is_deleted")]
-        public bool IsDeleted { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
+        public bool IsDeleted { get; set; } = false;
 
         [Column("view_count")]
         public int ViewCount { get; set; }

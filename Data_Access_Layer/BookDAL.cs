@@ -12,12 +12,18 @@ namespace Data_Access_Layer
 {
     public class BookDAL
     {
-        public async Task<List<Book>> GetAllBooks()
+        public async Task<List<Book>> GetAllBooks(int pageNumber = 1, int pageSize = 1000)
         {
             var db = new BookDbContext();
-            var books = await db.Books.ToListAsync();
+            var skipResult = (pageNumber - 1) * pageSize;
 
-            return books;
+            var bookTitles = await db.Books
+                .Skip(skipResult)
+                .Take(pageSize)
+                .OrderByDescending(b => (b.ViewCount * 0.5) + ((DateTime.Now.Year - b.PublicationYear) * 2))
+                .ToListAsync();
+
+            return bookTitles;
         }
 
 
@@ -31,6 +37,8 @@ namespace Data_Access_Layer
                 return null;
             }
 
+            exsistingBook.ViewCount++;
+            await db.SaveChangesAsync();
             return exsistingBook;
         }
 
@@ -68,7 +76,7 @@ namespace Data_Access_Layer
         }
 
       
-        public async Task SoftDeleteBooksBulk(List<Guid> ids)
+        public async Task DeleteBooksBulk(List<Guid> ids)
         {
             var db = new BookDbContext();
 
@@ -81,10 +89,29 @@ namespace Data_Access_Layer
 
 
 
+
         public async Task CreateBook(Book book)
         {
             var db = new BookDbContext();
-            await db.AddAsync(book);
+
+            // if book title exists, throw error
+            var existingBook = await db.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
+            if (existingBook != null)
+            {
+                throw new InvalidOperationException("A book with the same title already exists.");
+            }
+
+            var newBook = new Book
+            {
+                Id = Guid.NewGuid(),
+                Title = book.Title,
+                PublicationYear = book.PublicationYear,
+                AuthorName = book.AuthorName,
+                ViewCount = book.ViewCount,
+                IsDeleted = false
+            };
+
+            await db.AddAsync(newBook);
             await db.SaveChangesAsync();
         }
 

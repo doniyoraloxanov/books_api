@@ -30,9 +30,9 @@ namespace Business_Logic_Layer
         }
 
 
-        public async  Task<List<BooksModel>> GetAllBooks()
+        public async  Task<List<BooksModel>> GetAllBooks(int pageNumber = 1, int pageSize = 1000)
         {
-            List<Book> booksFromDB =  await _DAL.GetAllBooks();
+            List<Book> booksFromDB =  await _DAL.GetAllBooks(pageNumber, pageSize);
             List<BooksModel> booksModel = _BooksMapper.Map<List<Book>, List<BooksModel>>(booksFromDB);
 
             return booksModel;
@@ -73,7 +73,7 @@ namespace Business_Logic_Layer
 
         public async Task DeleteSoftBook(List<Guid> ids)
         {
-            await _DAL.SoftDeleteBooksBulk(ids);
+            await _DAL.DeleteBooksBulk(ids);
         }
 
 

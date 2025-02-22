@@ -21,9 +21,10 @@ namespace Web_API.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetAllBooks()
+        public async Task<IActionResult> GetAllBooks([FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 1000)
         {
-            var books = await _BLL.GetAllBooks();
+            var books = await _BLL.GetAllBooks(pageNumber, pageSize);
             return Ok(books);
         }
 
