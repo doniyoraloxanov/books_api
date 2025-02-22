@@ -48,9 +48,8 @@ namespace Web_API.Controllers
 
             if (ModelState.IsValid)
             {
-
-                await _BLL.CreateBook(addBooksModel);
-                return Ok("A book inserted successfully.");
+              var book = await _BLL.CreateBook(addBooksModel);
+              return Ok(book);
 
             }
             else
@@ -66,14 +65,13 @@ namespace Web_API.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _BLL.CreateBooksBulk(addBooksModels);
-                return Ok("Books inserted successfully.");
-
-            } else
+                var books = await _BLL.CreateBooksBulk(addBooksModels);
+                return Ok(books);
+            }
+            else
             {
                 return BadRequest(ModelState);
             }
-
         }
 
 
@@ -99,7 +97,6 @@ namespace Web_API.Controllers
 
         [HttpDelete]
         [Route("{id:Guid}")]
-
         public async Task<IActionResult> DeleteBook([FromRoute] Guid id)
         {
             var deletedBook = _BLL.DeleteBook(id);

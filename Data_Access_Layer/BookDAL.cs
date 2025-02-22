@@ -57,6 +57,46 @@ namespace Data_Access_Layer
         }
 
 
+        
+        public async Task<Book?> CreateBook(Book book)
+        {
+            var db = new BookDbContext();
+
+            var books = await db.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
+            if (books != null)
+            {
+                throw new InvalidOperationException("A book with the same title already exists.");
+            }
+
+            var newBook = new Book
+            {
+                Id = Guid.NewGuid(),
+                Title = book.Title,
+                PublicationYear = book.PublicationYear,
+                AuthorName = book.AuthorName,
+                ViewCount = book.ViewCount,
+                IsDeleted = false
+            };
+
+            await db.AddAsync(newBook);
+            return newBook;
+        }
+
+
+        public async Task<List<Book>> CreateBooksBulk(List<Book> books)
+        {
+            var db = new BookDbContext();
+
+            var bookTitles = books.Select(b => b.Title).ToList();
+            var existingBooks = await db.Books.Where(b => bookTitles.Contains(b.Title)).ToListAsync();
+
+            if (existingBooks.Any()) throw new InvalidOperationException("One or more books with the same title already exist.");
+            await db.BulkInsertAsync(books);
+
+            return books;
+        }
+
+
 
         public async Task DeleteBook(Guid id)
         {
@@ -81,34 +121,5 @@ namespace Data_Access_Layer
             await db.SaveChangesAsync();
         }
 
-        public async Task CreateBook(Book book)
-        {
-            var db = new BookDbContext();
-
-            var existingBook = await db.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
-            if (existingBook != null)
-            {
-                throw new InvalidOperationException("A book with the same title already exists.");
-            }
-
-            var newBook = new Book
-            {
-                Id = Guid.NewGuid(),
-                Title = book.Title,
-                PublicationYear = book.PublicationYear,
-                AuthorName = book.AuthorName,
-                ViewCount = book.ViewCount,
-                IsDeleted = false
-            };
-
-            await db.AddAsync(newBook);
-            await db.SaveChangesAsync();
-        }
-
-        public async Task CreateBooksBulk(List<Book> books)
-        {
-            var db = new BookDbContext();
-            await db.BulkInsertAsync(books);
-        }
     }
 }
