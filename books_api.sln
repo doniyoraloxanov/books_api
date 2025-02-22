@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web_Api", "threelayer\Web_Api.csproj", "{0808E0C7-F96B-4CFF-8B7B-9E193939A968}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business_Logic_Layer", "Business_Logic_Layer\Business_Logic_Layer.csproj", "{B7D54950-C14F-4FFB-BFD8-D310E418AAB3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data_Access_Layer", "Data_Access_Layer\Data_Access_Layer.csproj", "{B889F6F5-5DE1-4429-8CC4-A39C19652465}"
@@ -15,10 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0808E0C7-F96B-4CFF-8B7B-9E193939A968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0808E0C7-F96B-4CFF-8B7B-9E193939A968}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0808E0C7-F96B-4CFF-8B7B-9E193939A968}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0808E0C7-F96B-4CFF-8B7B-9E193939A968}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7D54950-C14F-4FFB-BFD8-D310E418AAB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B7D54950-C14F-4FFB-BFD8-D310E418AAB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7D54950-C14F-4FFB-BFD8-D310E418AAB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
