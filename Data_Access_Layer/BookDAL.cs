@@ -61,8 +61,8 @@ namespace Data_Access_Layer
         {
             var db = new BookDbContext();
 
-            var books = await db.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
-            if (books != null)
+            var exsistingBook = await db.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
+            if (exsistingBook != null)
             {
                 throw new InvalidOperationException("A book with the same title already exists.");
             }

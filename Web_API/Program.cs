@@ -22,8 +22,8 @@ namespace books
                     Description = "An API to perform Book operations",
                     Contact = new OpenApiContact
                     {
-                        Name = "books",
-                        Email = "doniyoraloxanov@gmail",
+                        Name = "Doniyor",
+                        Email = "doniyoraloxanov@gmail.com",
                         Url = new Uri("https://example.com"),
                     },
                     License = new OpenApiLicense
