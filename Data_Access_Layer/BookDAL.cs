@@ -22,7 +22,7 @@ namespace Data_Access_Layer
         }
 
 
-        public async Task<Book> GetBookById(Guid id)
+        public async Task<Book?> GetBookById(Guid id)
         {
             var db = new BookDbContext();
 
@@ -51,7 +51,6 @@ namespace Data_Access_Layer
             exsistingBook.Title = updateBook.Title;
             exsistingBook.PublicationYear = updateBook.PublicationYear;
             exsistingBook.AuthorName = updateBook.AuthorName;
-            exsistingBook.ViewCount = updateBook.ViewCount;
             await db.SaveChangesAsync();
             return exsistingBook;
         }
@@ -74,7 +73,6 @@ namespace Data_Access_Layer
                 Title = book.Title,
                 PublicationYear = book.PublicationYear,
                 AuthorName = book.AuthorName,
-                ViewCount = book.ViewCount,
                 IsDeleted = false
             };
 
