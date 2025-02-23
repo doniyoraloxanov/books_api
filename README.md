@@ -4,9 +4,8 @@
 The **Books Management API** is a RESTful service built using ASP.NET Core Web API that allows users to manage books securely. The API supports essential book operations, including adding, updating, retrieving, and soft deleting books, with proper validation and authentication via JWT.
 
 ## Technologies Used
-- **Framework**: .NET 8 / .NET 9
-- **Database**: SQL Server (EF Core / Dapper) or MongoDB (MongoDB C# Driver)
-- **Authentication**: JWT-based authentication
+- **Framework**: .NET 8 
+- **Database**: SQL Server (EF Core )
 - **Architecture**: 3-layered (Models, Data Access, API)
 - **API Documentation**: Swagger
 
